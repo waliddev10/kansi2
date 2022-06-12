@@ -26,16 +26,6 @@
                   <br>
                   {{ $agenda->status_agenda->name }}
                </li>
-               <li class="list-group-item border-0">
-                  <b>Partisipan Aktifitas</b>
-                  <ul>
-                     @forelse($agenda->workunit as $workunit)
-                     <li>{{ $workunit->code }} - {{ $workunit->name }}</li>
-                     @empty
-                     <li>Semua Satuan Kerja</li>
-                     @endforelse
-                  </ul>
-               </li>
             </ul>
          </div>
       </div>

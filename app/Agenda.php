@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Agenda extends Model
 {
@@ -14,12 +13,19 @@ class Agenda extends Model
         'start',
         'end',
         'link',
-        'attachment', 'status_agenda_id'
+        'attachment',
+        'status_agenda_id'
     ];
 
     protected $appends = [
-        'url', 'workunit'
+        'url',
+        'workunit'
     ];
+
+    public function presents()
+    {
+        return $this->hasMany('App\Present');
+    }
 
     public function user()
     {

@@ -27,8 +27,6 @@
                                 <th>Tanggal Mulai</th>
                                 <th>Target Selesai</th>
                                 <th>Sifat</th>
-                                <th>Satuan Kerja</th>
-                                <th>Tautan</th>
                                 <th>Lampiran</th>
                                 <th>PIC Mod.</th>
                                 <th>Aksi</th>
@@ -79,21 +77,6 @@
                             data-toggle="datetimepicker" data-target="#end" placeholder="Target Selesai"
                             autocomplete="off" required />
                         <span id="end-error" class="invalid-feedback" role="alert">
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label for="link">Tautan</label>
-                        <textarea name="link" type="text" id="link" class="form-control" placeholder="Tautan" rows="2"
-                            autocomplete="off"></textarea>
-                        <span id="link-error" class="invalid-feedback" role="alert">
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label for="workunit_id">Unit Kerja</label>
-                        <small class="text-warning">Kosongkan jika untuk semua Unit Kerja.</small>
-                        <select id="workunit_id" name="workunit_id[]" class="select2 form-control" multiple="multiple"
-                            style="width: 100%;"></select>
-                        <span id="workunit_id-error" class="invalid-feedback" role="alert">
                         </span>
                     </div>
                     <div class="form-group">
@@ -265,24 +248,6 @@
                 { data: 'status_agenda.name',
                     orderable: false
                 },
-                {   data: 'workunit',
-                    render: function ( data, type, row ) { 
-                        var html = '';
-
-                        data.forEach(myFunction);
-                        function myFunction(item, index) {
-                            html += `${item.name} <br>`;
-                        }
-
-                        if(html) {
-                            return html;
-                        } else {
-                            return '<b>Semua Unit Kerja</b>';
-                        }
-                    },
-                  orderable: false
-                },
-                { data: 'link' },
                 { data: 'attachment' },
                 { data: 'user.name' },
                 { data: 'id',

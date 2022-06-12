@@ -4,31 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Agenda;
 use App\Present;
+use App\User;
 use App\Workunit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
-class AgendaController extends Controller
+class MonevController extends Controller
 {
     //
     public function index()
     {
         $agendaList = (new Agenda)
+            ->join('users', 'users.id', '=', 'agendas.user_id')
             ->with(['presents'])
             ->where('user_id', Auth::user()->id)
             ->orderBy('start', 'desc')
-            ->whereHas('presents', function ($query) {
-                return $query->where('user_id', Auth::user()->id);
-            })
-            // ->where('start', '<', Carbon::now())
             ->get()
-            ->groupBy(function ($date) {
-                return Carbon::parse($date->start)->isoFormat('MMMM YYYY');
-            });
+            ->groupBy('name');
 
-        return view('pages.agendas.agenda_list', compact('agendaList'));
+        return view('pages.moderator.monev', compact('agendaList'));
     }
 
     public function detail($slug)

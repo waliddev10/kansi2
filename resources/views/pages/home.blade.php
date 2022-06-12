@@ -1,6 +1,6 @@
 @extends('layouts.panel')
 
-@section('title', 'Beranda')
+{{-- @section('title', 'Beranda') --}}
 
 @push('stylesheets')
 <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/main.min.css') }}">
@@ -32,7 +32,7 @@
             </div>
             <div class="card-body p-0">
                 <ul class="products-list product-list-in-card p-2">
-                    @forelse($monthly_agendas_not_completed as $agenda)
+                    @forelse($monthlyAgendaNotCompleted as $agenda)
                     <li class="item mx-3">
                         <div class="product-img">
                             <img src="{{ asset('assets/img/agenda.jpg') }}" alt="{{ $agenda->title }}"
@@ -41,24 +41,12 @@
                         <div class="product-info">
                             <a class="text-dark product-title">{{ $agenda->title }}</a>
                             <span class="product-description">
-                                {{ $agenda->description }}
+                                <i class="far fa-calendar-alt"></i>
+                                {{ \Carbon\Carbon::parse($agenda->end)->isoFormat('dddd, D MMMM YYYY') }}
                             </span>
-                            <span class="product-description">
-                                <i class="far fa-calendar"></i>
-                                {{ \Carbon\Carbon::parse($agenda->start)->isoFormat('dddd, D MMMM YYYY') }}
-                            </span>
-                            <span class="product-description">
-                                <i class="far fa-clock"></i>
-                                {{ \Carbon\Carbon::parse($agenda->start)->isoFormat('HH.mm') }} WIB
-                            </span>
-                            @if($agenda->user_id)
-                            <span class="float-right text-success text-md font-weight-bold opacity-3">
-                                <i class="fas fa-check-circle"></i>
-                                Selesai
-                            </span>
-                            @endif
-                            <a href="{{ route('agenda_detail', ['slug' => $agenda->slug]) }}"><span
-                                    class="badge badge-primary"><i class="far fa-eye"></i> Detail</span></a>
+                            <a href="{{ route('agenda_detail', ['slug' => $agenda->slug]) }}">
+                                <span class="badge badge-primary"><i class="far fa-eye"></i> Detail</span>
+                            </a>
                         </div>
                     </li>
                     @empty
@@ -75,7 +63,7 @@
             </div>
             <div class="card-body p-0">
                 <ul class="products-list product-list-in-card p-2">
-                    @forelse($monthly_agendas as $agenda)
+                    @forelse($monthlyAgenda as $agenda)
                     <li class="item mx-3">
                         <div class="product-img">
                             <img src="{{ asset('assets/img/agenda.jpg') }}" alt="{{ $agenda->title }}"
@@ -84,24 +72,18 @@
                         <div class="product-info">
                             <a class="text-dark product-title">{{ $agenda->title }}</a>
                             <span class="product-description">
-                                {{ $agenda->description }}
-                            </span>
-                            <span class="product-description">
                                 <i class="far fa-calendar"></i>
                                 {{ \Carbon\Carbon::parse($agenda->start)->isoFormat('dddd, D MMMM YYYY') }}
                             </span>
-                            <span class="product-description">
-                                <i class="far fa-clock"></i>
-                                {{ \Carbon\Carbon::parse($agenda->start)->isoFormat('HH.mm') }} WIB
-                            </span>
-                            @if($agenda->user_id)
-                            <span class="float-right text-success text-md font-weight-bold opacity-3">
+                            <a href="{{ route('agenda_detail', ['slug' => $agenda->slug]) }}">
+                                <span class="badge badge-primary"><i class="far fa-eye"></i> Detail</span>
+                            </a>
+                            @if($agenda->presents->count())
+                            <span class="float-right text-success text-md font-weight-bold">
                                 <i class="fas fa-check-circle"></i>
                                 Selesai
                             </span>
                             @endif
-                            <a href="{{ route('agenda_detail', ['slug' => $agenda->slug]) }}"><span
-                                    class="badge badge-primary"><i class="far fa-eye"></i> Detail</span></a>
                         </div>
                     </li>
                     @empty
@@ -126,9 +108,9 @@
 <script src="{{ asset('assets/plugins/fullcalendar-bootstrap/main.min.js') }}"></script>
 <script>
     $(function() { 
-        var Calendar = FullCalendar.Calendar; 
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new Calendar(calendarEl, { 
+        const Calendar = FullCalendar.Calendar; 
+        const calendarEl = document.getElementById('calendar');
+        const calendar = new Calendar(calendarEl, { 
             displayEventTime: true,
             selectable: true,
             plugins: [
@@ -145,7 +127,9 @@
             contentHeight: 'auto',
             themeSystem: 'bootstrap',
             locale: 'id',
-            events: '{{ route('agenda.get') }}', 
+            events: {
+                url: '{{ route('agenda.get') }}'
+            }, 
             eventRender: function (event, element, view) {
                 if (event.allDay === 'true') {
                     event.allDay = true;

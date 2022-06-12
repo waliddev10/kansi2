@@ -28,7 +28,7 @@
                     </div>
                     <div class="text-center">
                         <h4 class="font-weight-bolder">{{ Auth::user()->name }}</h4>
-                        <h6>NIP/NIK: {{ Auth::user()->nip }}</h6>
+                        <h6>{{ Auth::user()->email }}</h6>
                     </div>
                 </div>
             </div>
@@ -40,9 +40,14 @@
                         <div style="height: 10px; width: 60px; background-color: #{{ Auth::user()->color }};"></div>
                     </li>
                     <li class="list-group-item border-0">
-                        <b>Alamat Email</b>
+                        <b>NIP</b>
                         <br>
-                        {{ Auth::user()->email }}
+                        {{ Auth::user()->nip }}
+                    </li>
+                    <li class="list-group-item border-0">
+                        <b>Jenis Kelamin</b>
+                        <br>
+                        {{ Auth::user()->gender }}
                     </li>
                     <li class="list-group-item border-0">
                         <b>Unit Kerja</b>

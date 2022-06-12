@@ -68,6 +68,9 @@ Route::middleware(['auth', 'verified'])->group(
                 Route::post('/user-list/data/trash', 'UserController@datatable_trash')->name('moderator.user_list.datatable_trash');
                 #-------------------------------- jangan diutik-utik plis ----
 
+                Route::get('/moderator/monev', 'MonevController@index')->name('moderator.monev');
+
+
                 Route::get('/moderator/agenda', 'AgendaController@moderator_agenda_index')->name('moderator.agenda');
                 Route::get('/moderator/agenda/get', 'AgendaController@moderator_agenda_get')->name('moderator.agenda.get');
                 Route::post('/moderator/agenda/store', 'AgendaController@moderator_agenda_store')->name('moderator.agenda.store');

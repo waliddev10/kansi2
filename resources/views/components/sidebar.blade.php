@@ -53,14 +53,21 @@
                   <p>Daftar Kontak</p>
                </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                <a href="{{ route('contact') }}" class="nav-link @if(request()->routeIs('contact')) active @endif">
                   <i class="nav-icon fas fa-comment"></i>
                   <p>Chat Operator</p>
                </a>
-            </li>
+            </li> --}}
             @if(Auth::user()->role == 'moderator' || Auth::user()->role == 'admin')
             <li class="nav-header font-weight-bold text-uppercase">Operator</li>
+            <li class="nav-item">
+               <a href="{{ route('moderator.monev') }}"
+                  class="nav-link @if(request()->routeIs('moderator.monev')) active @endif">
+                  <i class="nav-icon fas fa-search"></i>
+                  <p>Monev</p>
+               </a>
+            </li>
             <li class="nav-item">
                <a href="{{ route('moderator.agenda') }}"
                   class="nav-link @if(request()->routeIs('moderator.agenda')) active @endif">

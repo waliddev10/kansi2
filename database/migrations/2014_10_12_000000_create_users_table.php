@@ -17,12 +17,13 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('nip');
-            $table->string('color');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('handphone');
+            $table->string('color');
             $table->enum('role', ['user', 'moderator', 'admin']);
+            $table->enum('gender', ['Laki-laki', 'Perempuan'])->default('Laki-laki');
             $table->bigInteger('workunit_id')->unsigned();
             $table->bigInteger('position_id')->unsigned();
             $table->rememberToken();

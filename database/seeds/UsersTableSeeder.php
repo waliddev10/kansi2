@@ -25,7 +25,7 @@ class UsersTableSeeder extends Seeder
                 'handphone' => '085172277277',
                 'role' => 'admin',
                 'workunit_id' => 1,
-                'position_id' => 3,
+                'position_id' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]

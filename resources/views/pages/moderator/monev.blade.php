@@ -1,14 +1,14 @@
 @extends('layouts.panel')
 
-@section('title', 'Aktivitas Selesai')
+@section('title', 'Monev')
 
 @section('content')
 <div class="row">
    <div class="col">
-      @forelse($agendaList as $monthly => $agendas)
-      <div class="card shadow-sm mb-3">
+      @forelse($agendaList as $name => $agendas)
+      <div class="card shadow-sm mb-3  collapsed-card">
          <div class="card-header">
-            <h3 class="card-title">{{ $monthly }}</h3>
+            <h3 class="card-title">{{ $name }}</h3>
             <div class="card-tools">
                <small class="badge badge-secondary">{{ count($agendas) }}</small>
                <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -30,7 +30,7 @@
                      </span>
                      <a href="{{ route('agenda_detail', ['slug' => $agenda->slug]) }}"><span
                            class="badge badge-primary"><i class="far fa-eye"></i> Detail</span></a>
-                     @if($agenda->user_id)
+                     @if($agenda->presents->count())
                      <span class="float-right text-success text-md font-weight-bold opacity-3">
                         <i class="fas fa-check-circle"></i>
                         Selesai

@@ -1,11 +1,11 @@
 @extends('layouts.panel')
 
-@section('title', 'Aktivitas Mendatang')
+@section('title', 'Aktivitas Baru')
 
 @section('content')
 <div class="row">
    <div class="col">
-      @forelse($upcoming_agendas as $monthly => $agendas)
+      @forelse($upcomingAgendaList as $monthly => $agendas)
       <div class="card shadow-sm mb-3">
          <div class="card-header">
             <h3 class="card-title">{{ $monthly }}</h3>
@@ -21,30 +21,17 @@
                @foreach ($agendas as $agenda)
                <li class="item mx-3">
                   <div class="product-img">
-                     <img src="{{ asset('assets/img/agenda.jpg') }}" alt="{{ $agenda->title }}"
-                        class="img-size-50 img-circle">
+                     <img src="{{ asset('assets/img/agenda.jpg') }}" alt="{{ $agenda->title }}" class="img-size-50">
                   </div>
                   <div class="product-info">
                      <a class="text-dark product-title">{{ $agenda->title }}</a>
                      <span class="product-description">
-                        {{ $agenda->description }}
-                     </span>
-                     <span class="product-description">
                         <i class="far fa-calendar"></i>
                         {{ \Carbon\Carbon::parse($agenda->start)->isoFormat('dddd, D MMMM YYYY') }}
                      </span>
-                     <span class="product-description">
-                        <i class="far fa-clock"></i>
-                        {{ \Carbon\Carbon::parse($agenda->start)->isoFormat('HH.mm') }} WIB
-                     </span>
-                     @if($agenda->workunit_id)
-                     <span class="product-description text-primary">
-                        <i class="fas fa-user"></i>
-                        Terbatas
-                     </span>
-                     @endif
-                     <a href="{{ route('agenda_detail', ['slug' => $agenda->slug]) }}"><span
-                           class="badge badge-primary"><i class="far fa-eye"></i> Detail</span></a>
+                     <a href="{{ route('agenda_detail', ['slug' => $agenda->slug]) }}">
+                        <span class="badge badge-primary"><i class="far fa-eye"></i> Detail</span>
+                     </a>
                   </div>
                </li>
                @endforeach

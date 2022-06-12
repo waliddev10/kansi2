@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Agenda;
 use App\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -26,28 +27,28 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        $agenda = new Agenda;
-        $monthly_agendas_not_completed = $agenda->leftJoin('presents', function ($join) {
-            $join->on('agendas.id', '=', 'presents.agenda_id')
-                ->where('presents.user_id', '=', Auth::user()->id);
-        })
-            ->whereMonth('start', '=', Carbon::now())->where(function ($query) {
-                $query->whereNull('workunit_id')->orWhereRaw('FIND_IN_SET("' . Auth::user()->workunit_id . '",workunit_id)');
-            })
-            ->whereNull('presents.user_id')
-            ->orderBy('start', 'asc')->get();
 
-        $monthly_agendas = $agenda->leftJoin('presents', function ($join) {
-            $join->on('agendas.id', '=', 'presents.agenda_id')
-                ->where('presents.user_id', '=', Auth::user()->id);
-        })
-            ->whereMonth('start', '=', Carbon::now())->where(function ($query) {
-                $query->whereNull('workunit_id')->orWhereRaw('FIND_IN_SET("' . Auth::user()->workunit_id . '",workunit_id)');
-            })->orderBy('start', 'asc')->get();
+        $monthlyAgendaNotCompleted = (new Agenda)
+            ->with(['presents'])
+            ->where('user_id', Auth::user()->id)
+            ->whereMonth('start', '=', Carbon::now())
+            ->doesntHave('presents')
+            ->orderBy('start', 'asc')
+            ->get();
 
-        return view('pages.home', compact('monthly_agendas', 'monthly_agendas_not_completed'));
+        $monthlyAgenda = (new Agenda)
+            ->with(['presents'])
+            ->where('user_id', Auth::user()->id)
+            ->whereMonth('start', '=', Carbon::now())
+            // ->whereHas('presents', function (Builder $query) {
+            //     $query->where('user_id', Auth::user()->id);
+            // })
+            ->orderBy('start', 'asc')
+            ->get();
+
+        return view('pages.home', compact('monthlyAgenda', 'monthlyAgendaNotCompleted'));
     }
 
     public function profile_settings_index()

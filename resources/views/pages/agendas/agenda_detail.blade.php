@@ -7,6 +7,9 @@
 
    <div class="col-lg-4">
       <div class="card shadow-sm mb-3">
+         <a href="{{ route('agenda') }}" class="btn btn-primary font-weight-bold">
+            <i class="fas fa-arrow-left"></i> Kembali
+         </a>
          <div class="card-body box-profile">
             <ul class="list-group list-group-unbordered mb-3">
                <li class="list-group-item border-0">
@@ -25,27 +28,6 @@
                   {{ $agenda->status_agenda->name }}
                </li>
                <li class="list-group-item border-0">
-                  <b>Unit Kerja</b>
-                  <ul>
-                     @forelse($agenda->workunit as $workunit)
-                     <li>{{ $workunit->name }}</li>
-                     @empty
-                     <li>Semua Unit Kerja</li>
-                     @endforelse
-                  </ul>
-               </li>
-               <li class="list-group-item border-0">
-                  <b>Tautan</b>
-                  <br>
-                  @if($agenda->link)
-                  <a href="{{ $agenda->link }}">
-                     {{ $agenda->link }}
-                  </a>
-                  @else
-                  <span class="text-muted">Tidak ada tautan</span>
-                  @endif
-               </li>
-               <li class="list-group-item border-0">
                   <b>Lampiran</b>
                   <br>
                   @if($agenda->attachment)
@@ -57,9 +39,6 @@
                   @endif
                </li>
             </ul>
-            <a href="{{ route('agenda_detail.present', ['slug' => $agenda->slug]) }}"
-               class="btn btn-primary font-weight-bold"><i class="far fa-eye"></i> Lihat Status</a>
-
             @if($present)
             <div class="d-block pt-3">
                <i class="text-success fas fa-check-circle"></i> <b>Sudah diselesaikan pada</b>
@@ -86,6 +65,44 @@
                   </span>
                </div>
                <p>{{ $agenda->description }}</p>
+            </div>
+         </div>
+      </div>
+      <div class="card shadow-sm mb-3">
+         <div class="card-body">
+            <div class="post">
+               <strong class="text-dark font-weight-bold mb-2">Daftar Selesai</strong>
+
+               <div class="table-responsive">
+                  <table class="table table-bordered table-striped">
+                     <thead>
+                        <tr>
+                           <th>#</th>
+                           <th>Nama</th>
+                           <th>Unit Kerja</th>
+                           <th>Status</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        @forelse($presents as $present)
+                        <tr>
+                           <td>{{ $loop->iteration }}</td>
+                           <td>{{ $present->user['name'] }}</td>
+                           <td>{{ $present->user['workunit']['name'] }}</td>
+                           <td>
+                              <i class="text-success fas fa-check-circle"></i> Selesai
+                              <br>
+                              <small><i>{{ $present->created_at }}</i></small>
+                           </td>
+                        </tr>
+                        @empty
+                        <tr>
+                           <td colspan="4">Belum diselesaikan.</td>
+                        </tr>
+                        @endforelse
+                     </tbody>
+                  </table>
+               </div>
             </div>
          </div>
       </div>
