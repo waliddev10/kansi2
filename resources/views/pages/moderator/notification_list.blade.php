@@ -16,10 +16,6 @@
                     data-toggle="modal" data-target="#storeModeratorNotificationModal">
                     <i class="fas fa-plus-circle"></i> Tambah Notifikasi
                 </button>
-                <button id="trashModeratorNotificationModalButton" type="button" class="btn btn-danger float-right"
-                    data-toggle="modal" data-target="#trashModeratorNotificationModal">
-                    <i class="fas fa-trash"></i> Trash
-                </button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -70,33 +66,6 @@
                         Simpan</button>
                 </div>
             </form>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="trashModeratorNotificationModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Tempat Sampah</h5>
-            </div>
-            <div class="modal-body">
-                <div class="table-responsive">
-                    <table id="dataTrashModeratorNotification" class="table table-bordered table-striped"
-                        style="width:100%">
-                        <thead>
-                            <tr>
-                                <th style="width: 1%">#</th>
-                                <th>Judul Notifikasi</th>
-                                <th>Deskripsi</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-            </div>
         </div>
     </div>
 </div>
@@ -173,61 +142,6 @@
                 }
             });
         }
-
-        function restoreItemModeratorNotification(id) {
-            Swal.fire({
-                title: 'Yakin Restore Data?',
-                text: 'Data akan dikembalikan lagi.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Restore'
-            }).then((result) => {
-                if(result.isConfirmed) {
-                    $.ajax({
-                        url: '{{ route('moderator.notification.restore') }}',
-                        data: {id:id},
-                        type: 'PUT',
-                        success: function (res) {
-                            Swal.fire('Berhasil', res.message, 'success');
-                            $('#dataModeratorNotification').DataTable().ajax.reload();
-                            $('#dataTrashModeratorNotification').DataTable().ajax.reload();
-                        },
-                        error: function (response) {
-                            Swal.fire('Gagal Restore', JSON.stringify(response.responseJSON.errors), 'error');
-                        }
-                    });
-                }
-            });
-        }
-
-        function deletePermanentItemModeratorNotification(id) {
-            Swal.fire({
-                title: 'Yakin Hapus Permanent?',
-                text: 'Data kegiatan akan terhapus secara permanen.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Hapus Permanen'
-            }).then((result) => {
-                if(result.isConfirmed) {
-                    $.ajax({
-                        url: '{{ route('moderator.notification.destroy') }}',
-                        data: {id:id},
-                        type: 'DELETE',
-                        success: function (res) {
-                            Swal.fire('Berhasil', res.message, 'success');
-                            $('#dataTrashModeratorNotification').DataTable().ajax.reload();
-                        },
-                        error: function (response) {
-                            Swal.fire('Gagal Hapus', JSON.stringify(response.responseJSON.errors), 'error');
-                        }
-                    });
-                }
-            });
-        }
 </script>
 <script type="text/javascript">
     $(function(){
@@ -261,49 +175,6 @@
             return false;
           });
         });
-</script>
-<script type="text/javascript">
-    $(function () {
-        $('#trashModeratorNotificationModalButton').click(function(){
-            if ( ! $.fn.DataTable.isDataTable( '#dataTrashModeratorNotification' ) ) {
-                $('#dataTrashModeratorNotification').DataTable({
-                    responsive: true,
-                    processing: true,
-                    serverSide: true,
-                    ordering: true,
-                    deferRender: true,
-                    order: [[ 3, 'desc' ]],
-                    ajax: {
-                        url: '{{ route('moderator.notification.data_trash') }}', 
-                        type: 'POST'
-                    },
-                    columns: [
-                        { render: function (data, type, row, meta) {
-                                return meta.row + meta.settings._iDisplayStart + 1;
-                            },
-                            orderable: false
-                        },
-                        { data: 'title' },
-                        { data: 'description' },
-                        { data: 'id',
-                            render: function ( data, type, row ) { // Tampilkan kolom aksi
-                                var html = `<div class="text-nowrap">
-                                    <button class="btn badge badge-sm badge-success" onclick="restoreItemModeratorNotification(${data})"><i
-                                    class="fas fa-reply"></i></button>
-                                    <button class="btn badge badge-sm badge-danger" onclick="deletePermanentItemModeratorNotification(${data})"><i class="fas fa-trash"></i></button>
-                                    </div>`;
-                                return html;
-                            }, 
-                            orderable: false
-                        },
-                    ],
-                    columnDefs: [
-                        { responsivePriority: 1, targets: 1 }
-                    ]
-                })
-            }
-        });
-    });
 </script>
 <script type="text/javascript">
     $(function () {

@@ -29,6 +29,16 @@ class HomeController extends Controller
     public function index()
     {
         $agenda = new Agenda;
+        $monthly_agendas_not_completed = $agenda->leftJoin('presents', function ($join) {
+            $join->on('agendas.id', '=', 'presents.agenda_id')
+                ->where('presents.user_id', '=', Auth::user()->id);
+        })
+            ->whereMonth('start', '=', Carbon::now())->where(function ($query) {
+                $query->whereNull('workunit_id')->orWhereRaw('FIND_IN_SET("' . Auth::user()->workunit_id . '",workunit_id)');
+            })
+            ->whereNull('presents.user_id')
+            ->orderBy('start', 'asc')->get();
+
         $monthly_agendas = $agenda->leftJoin('presents', function ($join) {
             $join->on('agendas.id', '=', 'presents.agenda_id')
                 ->where('presents.user_id', '=', Auth::user()->id);
@@ -37,7 +47,7 @@ class HomeController extends Controller
                 $query->whereNull('workunit_id')->orWhereRaw('FIND_IN_SET("' . Auth::user()->workunit_id . '",workunit_id)');
             })->orderBy('start', 'asc')->get();
 
-        return view('pages.home', compact('monthly_agendas'));
+        return view('pages.home', compact('monthly_agendas', 'monthly_agendas_not_completed'));
     }
 
     public function profile_settings_index()

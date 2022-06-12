@@ -7,5 +7,4 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Workunit extends Model
 {
-    use SoftDeletes;
 }

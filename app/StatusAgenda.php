@@ -7,6 +7,4 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class StatusAgenda extends Model
 {
-    //
-    use SoftDeletes;
 }

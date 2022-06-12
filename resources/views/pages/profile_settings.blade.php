@@ -1,6 +1,6 @@
 @extends('layouts.panel')
 
-@section('title', 'Pengaturan Akun')
+@section('title', 'Profil')
 
 @section('content')
 <div class="row">
@@ -28,16 +28,16 @@
                     </div>
                     <div class="text-center">
                         <h4 class="font-weight-bolder">{{ Auth::user()->name }}</h4>
-                        <h6>NIP. {{ Auth::user()->nip }}</h6>
+                        <h6>NIP/NIK: {{ Auth::user()->nip }}</h6>
                     </div>
                 </div>
             </div>
             <div class="card-body">
                 <ul class="list-group list-group-unbordered mb-3">
                     <li class="list-group-item border-0">
-                        <b>Username</b>
+                        <b>Kode Warna</b>
                         <br>
-                        {{ Auth::user()->username }}
+                        <div style="height: 10px; width: 60px; background-color: #{{ Auth::user()->color }};"></div>
                     </li>
                     <li class="list-group-item border-0">
                         <b>Alamat Email</b>
@@ -45,9 +45,9 @@
                         {{ Auth::user()->email }}
                     </li>
                     <li class="list-group-item border-0">
-                        <b>Satuan Kerja</b>
+                        <b>Unit Kerja</b>
                         <br>
-                        {{ Auth::user()->workunit->code }} - {{ Auth::user()->workunit->name }}
+                        {{ Auth::user()->workunit->name }}
                     </li>
                     <li class="list-group-item border-0">
                         <b>Jabatan</b>
@@ -156,13 +156,6 @@
                         <input name="name" type="text" id="name" class="form-control" placeholder="Nama Lengkap"
                             autocomplete="off" required>
                         <span id="name-error" class="invalid-feedback" role="alert">
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label for="username">Username<span class="text-warning">*</span></label>
-                        <input name="username" type="text" id="username" class="form-control" placeholder="Username"
-                            autocomplete="off" required>
-                        <span id="username-error" class="invalid-feedback" role="alert">
                         </span>
                     </div>
                     <div class="form-group">

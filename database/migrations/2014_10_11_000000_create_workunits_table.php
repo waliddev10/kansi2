@@ -16,10 +16,7 @@ class CreateWorkunitsTable extends Migration
         Schema::create('workunits', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('baes1');
-            $table->string('code')->unique();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

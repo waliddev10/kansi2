@@ -84,9 +84,23 @@ class AgendaController extends Controller
         $start = $request->start;
         $end = $request->end;
 
-        $agendas = Agenda::where('start', '>=', $start)->where('end', '<=', $end)->where(function ($query) {
+        $agendas_olah = Agenda::with(['user'])->where('start', '>=', $start)->where('end', '<=', $end)->where(function ($query) {
             $query->whereNull('workunit_id')->orWhereRaw('FIND_IN_SET("' . Auth::user()->workunit_id . '",workunit_id)');
         })->orderBy('end', 'desc')->get();
+
+        $agendas = collect([]);
+        collect($agendas_olah)->each(function ($item, $key) use ($agendas) {
+            $agendas->push((object)[
+                'id' => $item->id,
+                'description' => $item->description,
+                'end' => $item->end,
+                'slug' => $item->slug,
+                'start' => $item->start,
+                'title' => Str::upper($item->title) . ' (' . $item->user->name . ')',
+                'color' => '#' . $item->user->color,
+                'url' => $item->url,
+            ]);
+        });
 
         return response()->json($agendas, 200);
     }

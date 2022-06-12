@@ -1,6 +1,6 @@
 @extends('layouts.panel')
 
-@section('title', 'Hubungi KPPN')
+@section('title', 'Daftar Kontak')
 
 @section('content')
 <div class="row">

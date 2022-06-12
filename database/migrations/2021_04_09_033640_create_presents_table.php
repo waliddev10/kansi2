@@ -18,7 +18,6 @@ class CreatePresentsTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('agenda_id')->unsigned();
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('agenda_id')->references('id')->on('agendas')->onDelete('cascade')->onUpdate('cascade');

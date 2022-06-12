@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('nip');
+            $table->string('color');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -26,7 +27,6 @@ class CreateUsersTable extends Migration
             $table->bigInteger('position_id')->unsigned();
             $table->rememberToken();
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('workunit_id')->references('id')->on('workunits')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade')->onUpdate('cascade');

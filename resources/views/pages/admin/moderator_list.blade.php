@@ -1,6 +1,6 @@
 @extends('layouts.panel')
 
-@section('title', 'Daftar Moderator')
+@section('title', 'Daftar Operator')
 
 @push('stylesheets')
 <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -14,16 +14,16 @@
             <div class="card-body">
                 <button id="userModalButton" type="button" class="btn btn-primary" data-toggle="modal"
                     data-target="#userModal">
-                    <i class="fas fa-plus-circle"></i> Tambah Moderator
+                    <i class="fas fa-plus-circle"></i> Tambah Operator
                 </button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="dataModerator" class="table table-bordered table-striped" style="width:100%">
+                    <table id="dataOperator" class="table table-bordered table-striped" style="width:100%">
                         <thead>
                             <tr>
                                 <th style="width: 1%">#</th>
-                                <th>Nama Moderator</th>
+                                <th>Nama Operator</th>
                                 <th>Asal Satker</th>
                                 <th>Jabatan</th>
                                 <th>NIP</th>
@@ -50,7 +50,7 @@
             <div class="modal-body">
                 <div class="alert alert-warning" role="alert">
                     <i class="fas fa-exclamation-triangle"></i> Anda
-                    dapat mencari data akun Moderator yang akan dijadikan Admin dengan memanfaatkan kolom search.
+                    dapat mencari data akun Operator yang akan dijadikan Admin dengan memanfaatkan kolom search.
                 </div>
                 <div class="table-responsive">
                     <table id="dataUser" class="table table-bordered table-striped" style="width:100%">
@@ -84,7 +84,7 @@
 <script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
 <script type="text/javascript">
-    function updateItemModerator(id) {
+    function updateItemOperator(id) {
             Swal.fire({
                 title: 'Yakin akan mengubah data?',
                 text: 'Status akun akan dirubah, jangan sampai salah akun.',
@@ -101,7 +101,7 @@
                         type: 'PUT',
                         success: function (res) {
                             Swal.fire('Berhasil', res.message, 'success');
-                            $('#dataModerator').DataTable().ajax.reload();
+                            $('#dataOperator').DataTable().ajax.reload();
                             if ($.fn.DataTable.isDataTable( '#dataUser' )) {
                                 $('#dataUser').DataTable().ajax.reload();
                             }
@@ -146,7 +146,7 @@
                         { data: 'id',
                             render: function ( data, type, row ) { // Tampilkan kolom aksi
                                 var html = `<div class="text-nowrap">
-                                    <button class="btn badge badge-sm badge-success" onclick="updateItemModerator(${data})"><i
+                                    <button class="btn badge badge-sm badge-success" onclick="updateItemOperator(${data})"><i
                                     class="fas fa-check"></i></button>`;
                                 return html;
                             }, 
@@ -163,7 +163,7 @@
 </script>
 <script type="text/javascript">
     $(function () {
-        $('#dataModerator').DataTable({
+        $('#dataOperator').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
@@ -191,7 +191,7 @@
                 { data: 'id',
                     render: function ( data, type, row ) { // Tampilkan kolom aksi
                         var html = `<div class="text-nowrap">
-                            <button class="btn badge badge-sm badge-danger" onclick="updateItemModerator(${data})"><i class="fas fa-times"></i></button>
+                            <button class="btn badge badge-sm badge-danger" onclick="updateItemOperator(${data})"><i class="fas fa-times"></i></button>
                             </div>`;
                         return html;
                     }, 

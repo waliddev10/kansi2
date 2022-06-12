@@ -30,7 +30,11 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    // protected $redirectTo = '/home';
+    public function redirectTo()
+    {
+        return route('home');
+    }
 
     /**
      * Create a new controller instance.
@@ -56,7 +60,6 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'nip' => ['required', 'numeric', 'digits:18'],
             'handphone' => ['required', 'min:8', 'max:16'],
-            'username' => ['required', 'string', 'min:4', 'max:18', 'unique:users'],
             'workunit_id' => ['required', 'numeric'],
             'position_id' => ['required', 'numeric']
         ]);
@@ -76,7 +79,6 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'nip' => $data['nip'],
             'handphone' => $data['handphone'],
-            'username' => $data['username'],
             'role' => 'user',
             'workunit_id' => $data['workunit_id'],
             'position_id' => $data['position_id'],

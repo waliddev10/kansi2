@@ -7,19 +7,12 @@
 
 @section('content')
 <div class="card-body login-card-body">
-    <div class="form-group text-center">
-        <a href="{{ route('home') }}">
-            <img class="img" alt="Aplikasi KPPN Purwodadi" height="48" src="{{ asset('assets/img/logo-full.jpg') }}">
-        </a>
-    </div>
-    <p class="login-box-msg">Silakan login untuk melanjutkan.</p>
-
     <form method="POST" action="{{ route('login') }}">
         @csrf
         <div class="form-group">
-            <input name="username" type="text" class="form-control @error('username') is-invalid @enderror"
-                value="{{ old('username') }}" placeholder="Username" autocomplete="username" required autofocus>
-            @error('username')
+            <input name="email" type="text" class="form-control @error('email') is-invalid @enderror"
+                value="{{ old('email') }}" placeholder="Alamat Email" autocomplete="email" required autofocus>
+            @error('email')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
             </span>
@@ -44,8 +37,8 @@
         </div>
         <div class="form-group">
             <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="remember" class="custom-control-input" id="remember"
-                    {{ old('remember') ? 'checked' : '' }}> <label class="custom-control-label" for="remember">Ingat
+                <input type="checkbox" name="remember" class="custom-control-input" id="remember" {{ old('remember')
+                    ? 'checked' : '' }}> <label class="custom-control-label" for="remember">Ingat
                     saya</label>
             </div>
         </div>

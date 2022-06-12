@@ -29,7 +29,6 @@
                                 <th>NIP</th>
                                 <th>Status Role</th>
                                 <th>Alamat Email</th>
-                                <th>Username</th>
                                 <th>No. Handphone</th>
                                 <th>Aksi</th>
                             </tr>
@@ -63,7 +62,6 @@
                                 <th>NIP</th>
                                 <th>Status Role</th>
                                 <th>Alamat Email</th>
-                                <th>Username</th>
                                 <th>No. Handphone</th>
                                 <th>Aksi</th>
                             </tr>
@@ -141,7 +139,6 @@
                         { data: 'nip' },
                         { data: 'role' },
                         { data: 'email' },
-                        { data: 'username' },
                         { data: 'handphone' },
                         { data: 'id',
                             render: function ( data, type, row ) { // Tampilkan kolom aksi
@@ -186,7 +183,6 @@
                 { data: 'nip' },
                 { data: 'role' },
                 { data: 'email' },
-                { data: 'username' },
                 { data: 'handphone' },
                 { data: 'id',
                     render: function ( data, type, row ) { // Tampilkan kolom aksi

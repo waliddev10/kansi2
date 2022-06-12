@@ -1,7 +1,12 @@
 @extends('layouts.app')
 
 @section('app')
-<div class="@yield('auth-box-class', 'login-box') mt-4 pb-4">
+<div class="text-center">
+   <a href="{{ route('home') }}">
+      <img class="img" alt="{{ config('app.name') }}" height="64" src="{{ asset('assets/img/logo-full.png') }}">
+   </a>
+</div>
+<div class="@yield('auth-box-class', 'login-box') mt-3 pb-4">
    <div class="card shadow-sm">
       @yield('content')
    </div>

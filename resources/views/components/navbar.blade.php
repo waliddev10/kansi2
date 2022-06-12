@@ -1,4 +1,4 @@
-<nav class="main-header navbar navbar-expand navbar-dark navbar-primary border-bottom-0 elevation-1">
+<nav class="main-header navbar navbar-expand navbar-dark navbar-primary shadow-sm border-bottom-0">
    <ul class="navbar-nav">
       <li class="nav-item"> <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
                class="fas fa-bars"></i></a> </li>
@@ -7,6 +7,22 @@
       </li>
    </ul>
    <ul class="navbar-nav ml-auto">
+      <li class="nav-item d-none d-sm-block py-1">
+         <div class="btn btn-sm btn-warning font-weight-bold">
+            <i class="fas fa-clock"></i>
+            <span id="time-footer">{{ date('d-m-Y H:i:s', time()) }}</span>
+         </div>
+         @push('scripts')
+         <script type="text/javascript">
+            window.setTimeout("timerFooter()", 1000);
+            function timerFooter() {
+               var date = new Date();
+               setTimeout("timerFooter()",1000);
+               document.getElementById("time-footer").innerHTML = ('0' + date.getDate()).slice(-2) + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2);
+            }
+         </script>
+         @endpush
+      </li>
       <li class="nav-item dropdown">
          <a class="nav-link" data-toggle="dropdown" href="#">
             <i class="far fa-bell"></i>
@@ -14,7 +30,7 @@
             $num = \App\Notification::leftJoin('read_notifications', function($join) {
             $join->on('notifications.id', '=', 'read_notifications.notification_id')
             ->where('read_notifications.user_id', Auth::user()->id);
-            })->whereNotNull('read_notifications.deleted_at')->orWhereNull('read_notifications.user_id')->select('*',
+            })->orWhereNull('read_notifications.user_id')->select('*',
             'notifications.created_at
             AS date')->orderBy('notifications.created_at',
             'desc');
@@ -33,8 +49,8 @@
             <a href="{{ route('notification.detail', [$notif->slug]) }}" class="dropdown-item">
                <div class="text-truncate">
                   <i class="fas fa-envelope mr-2"></i> {{ $notif->title }}
-                  <span
-                     class="float-right text-muted text-sm">{{ \Carbon\Carbon::parse($notif->date)->isoFormat('DD MMMM YYYY') }}</span>
+                  <span class="float-right text-muted text-sm">{{ \Carbon\Carbon::parse($notif->date)->isoFormat('DD
+                     MMMM YYYY') }}</span>
                </div>
             </a>
             @endforeach
@@ -51,9 +67,7 @@
                <span class="font-weight-bold">{{ Auth::user()->name }}</span>
                <br>
                <small class="text-muted">
-                  {{ Auth::user()->workunit->code }} - {{ Auth::user()->workunit->name }}
-                  <br>
-                  {{ Auth::user()->position->name }}
+                  {{ Auth::user()->workunit->name }} - {{ Auth::user()->position->name }}
                </small>
             </a>
             <a href="{{ route('profile_settings') }}" class="dropdown-item dropdown-footer text-left">

@@ -12,8 +12,7 @@
 */
 
 Route::get('/', function () {
-    //return view('welcome');
-    return redirect('/home');
+    return redirect()->route('home');
 });
 
 Auth::routes(['verify' => true]);

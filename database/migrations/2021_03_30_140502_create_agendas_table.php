@@ -26,7 +26,6 @@ class CreateAgendasTable extends Migration
             $table->string('attachment')->nullable();
             $table->bigInteger('status_agenda_id')->unsigned();
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('status_agenda_id')->references('id')->on('status_agendas')->onDelete('cascade')->onUpdate('cascade');

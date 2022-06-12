@@ -13,16 +13,17 @@ class WorkunitsTableSeeder extends Seeder
      */
     public function run()
     {
-        //
-        $data = [
+        return Workunit::insert([
             [
-                'name' => 'KPPN PURWODADI',
-                'baes1' => '12345',
-                'code' => '648812',
+                'name' => 'Akuntansi',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
-        ];
-        Workunit::insert($data);
+            [
+                'name' => 'Verifikasi',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+        ]);
     }
 }

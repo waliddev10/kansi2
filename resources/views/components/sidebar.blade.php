@@ -1,48 +1,71 @@
-<aside class="main-sidebar sidebar-light-primary shadow-sm"> <a class="brand-link"> <img
-         src="{{ asset('assets/img/logo.png') }}" alt="SIKKA BEM" class="brand-image"> <span
-         class="brand-text font-weight-bolder">{{ config('app.name', 'Laravel') }}</span> </a>
+<aside class="main-sidebar sidebar-light-primary shadow-sm">
+   <a class="brand-link">
+      <img src="{{ asset('assets/img/logo-text.png') }}" alt="{{ config('app.name') }}" class="brand-image">
+      {{-- <span class="brand-text font-weight-bolder">
+         {{ config('app.name', 'Laravel') }}
+      </span> --}}
+   </a>
    <div class="sidebar">
       <nav class="mt-3 pb-5">
          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <li class="nav-header font-weight-bold text-uppercase">Menu Navigasi</li>
             <li class="nav-item">
                <a href="{{ route('home') }}" class="nav-link @if(request()->routeIs('home')) active @endif">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
-                  <p>Dasbor</p>
+                  <i class="nav-icon fas fa-home"></i>
+                  <p>Beranda</p>
+               </a>
+            </li>
+            <li class="nav-item">
+               <a href="{{ route('profile_settings') }}"
+                  class="nav-link @if(request()->routeIs('profile_settings')) active @endif">
+                  <i class="nav-icon fas fa-user"></i>
+                  <p>Profil</p>
                </a>
             </li>
             <li class="nav-item">
                <a href="{{ route('upcoming_agenda') }}"
                   class="nav-link @if(request()->routeIs('upcoming_agenda')) active @endif">
                   <i class="nav-icon fas fa-calendar-alt"></i>
-                  <p>Kegiatan Mendatang</p>
+                  <p>Aktivitas Baru</p>
                </a>
             </li>
             <li class="nav-item">
                <a href="{{ route('agenda') }}" class="nav-link @if(request()->routeIs('agenda')) active @endif">
                   <i class="nav-icon fas fa-calendar-check"></i>
-                  <p>Kegiatan Selesai</p>
+                  <p>Aktivitas Selesai</p>
+               </a>
+            </li>
+            <li class="nav-item">
+               <a href="{{ route('notification') }}"
+                  class="nav-link @if(request()->routeIs('notification')) active @endif">
+                  <i class="nav-icon fas fa-bell"></i>
+                  <p>Notifikasi</p>
                </a>
             </li>
             <li class="nav-item">
                <a href="{{ route('forum') }}" class="nav-link @if(request()->routeIs('forum')) active @endif">
                   <i class="nav-icon fas fa-list"></i>
-                  <p>Pertanyaan</p>
+                  <p>Forum Diskusi</p>
                </a>
             </li>
             <li class="nav-item">
                <a href="{{ route('contact') }}" class="nav-link @if(request()->routeIs('contact')) active @endif">
                   <i class="nav-icon fas fa-phone"></i>
-                  <p>Hubungi KPPN</p>
+                  <p>Daftar Kontak</p>
+               </a>
+            </li>
+            <li class="nav-item">
+               <a href="{{ route('contact') }}" class="nav-link @if(request()->routeIs('contact')) active @endif">
+                  <i class="nav-icon fas fa-comment"></i>
+                  <p>Chat Operator</p>
                </a>
             </li>
             @if(Auth::user()->role == 'moderator' || Auth::user()->role == 'admin')
-            <li class="nav-header font-weight-bold text-uppercase">Moderator</li>
+            <li class="nav-header font-weight-bold text-uppercase">Operator</li>
             <li class="nav-item">
                <a href="{{ route('moderator.agenda') }}"
                   class="nav-link @if(request()->routeIs('moderator.agenda')) active @endif">
                   <i class="nav-icon fas fa-briefcase"></i>
-                  <p>Administrasi Kegiatan</p>
+                  <p>Administrasi Aktivitas</p>
                </a>
             </li>
             <li class="nav-item">
@@ -132,7 +155,7 @@
                   <p>Data Master</p>
                   <i class="fas fa-angle-left right"></i>
                </a>
-               <ul class="nav nav-treeview">
+               <ul class="nav nav-treeview ml-3">
                   <li class="nav-item">
                      <a href="{{ route('master_position') }}"
                         class="nav-link @if(request()->routeIs('master_position')) active @endif">
@@ -144,7 +167,7 @@
                      <a href="{{ route('master_workunit') }}"
                         class="nav-link @if(request()->routeIs('master_workunit')) active @endif">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Daftar Satker</p>
+                        <p>Daftar Unit Kerja</p>
                      </a>
                   </li>
                   <li class="nav-item">
@@ -167,27 +190,13 @@
                <a href="{{ route('moderator_list') }}"
                   class="nav-link @if(request()->routeIs('moderator_list')) active @endif">
                   <i class="nav-icon fas fa-user-friends"></i>
-                  <p>Daftar Moderator</p>
+                  <p>Daftar Operator</p>
                </a>
             </li>
             <li class="nav-item">
                <a href="{{ route('admin_list') }}" class="nav-link @if(request()->routeIs('admin_list')) active @endif">
                   <i class="nav-icon fas fa-user-cog"></i>
                   <p>Daftar Admin</p>
-               </a>
-            </li>
-            {{-- <li class="nav-item">
-               <a href="{{ route('home') }}" class="nav-link">
-            <i class="nav-icon fas fa-cogs"></i>
-            <p>Backup & Restore</p>
-            </a>
-            </li>
-            --}}
-            <li class="nav-item">
-               <a href="{{ route('application_info') }}"
-                  class="nav-link @if(request()->routeIs('application_info')) active @endif">
-                  <i class="nav-icon fas fa-exclamation-circle"></i>
-                  <p>Info Aplikasi</p>
                </a>
             </li>
             @endif

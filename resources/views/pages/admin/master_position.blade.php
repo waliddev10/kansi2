@@ -16,10 +16,6 @@
                     data-target="#storePositionModal">
                     <i class="fas fa-plus-circle"></i> Tambah Jabatan
                 </button>
-                <button id="trashPositionModalButton" type="button" class="btn btn-danger float-right"
-                    data-toggle="modal" data-target="#trashPositionModal">
-                    <i class="fas fa-trash"></i> Trash
-                </button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -63,32 +59,6 @@
                         Simpan</button>
                 </div>
             </form>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="trashPositionModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Tempat Sampah</h5>
-            </div>
-            <div class="modal-body">
-                <div class="table-responsive">
-                    <table id="dataTrashPosition" class="table table-bordered table-striped" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th style="width: 1%">#</th>
-                                <th>Nama Jabatan</th>
-                                <th>Tgl Hapus</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-            </div>
         </div>
     </div>
 </div>
@@ -146,64 +116,6 @@
                         success: function (res) {
                             Swal.fire('Berhasil', res.message, 'success');
                             $('#dataPosition').DataTable().ajax.reload();
-                            if ($.fn.DataTable.isDataTable( '#dataTrashPosition' )) {
-                                $('#dataTrashPosition').DataTable().ajax.reload();
-                            }
-                        },
-                        error: function (response) {
-                            Swal.fire('Gagal Hapus', JSON.stringify(response.responseJSON.errors), 'error');
-                        }
-                    });
-                }
-            });
-        }
-
-        function restoreItemPosition(id) {
-            Swal.fire({
-                title: 'Yakin Restore Data?',
-                text: 'Data akan dikembalikan lagi.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Restore'
-            }).then((result) => {
-                if(result.isConfirmed) {
-                    $.ajax({
-                        url: '{{ route('master_position.restore') }}',
-                        data: {id:id},
-                        type: 'PUT',
-                        success: function (res) {
-                            Swal.fire('Berhasil', res.message, 'success');
-                            $('#dataPosition').DataTable().ajax.reload();
-                            $('#dataTrashPosition').DataTable().ajax.reload();
-                        },
-                        error: function (response) {
-                            Swal.fire('Gagal Restore', JSON.stringify(response.responseJSON.errors), 'error');
-                        }
-                    });
-                }
-            });
-        }
-
-        function deletePermanentItemPosition(id) {
-            Swal.fire({
-                title: 'Yakin Hapus Permanent?',
-                text: 'Data yang berkaitan dengan jabatan (user, dll) juga akan terhapus secara permanen.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Hapus Permanen'
-            }).then((result) => {
-                if(result.isConfirmed) {
-                    $.ajax({
-                        url: '{{ route('master_position.destroy_permanent') }}',
-                        data: {id:id},
-                        type: 'DELETE',
-                        success: function (res) {
-                            Swal.fire('Berhasil', res.message, 'success');
-                            $('#dataTrashPosition').DataTable().ajax.reload();
                         },
                         error: function (response) {
                             Swal.fire('Gagal Hapus', JSON.stringify(response.responseJSON.errors), 'error');
@@ -244,49 +156,6 @@
             return false;
           });
         });
-</script>
-<script type="text/javascript">
-    $(function () {
-        $('#trashPositionModalButton').click(function(){
-            if ( ! $.fn.DataTable.isDataTable( '#dataTrashPosition' ) ) {
-                $('#dataTrashPosition').DataTable({
-                    responsive: true,
-                    processing: true,
-                    serverSide: true,
-                    ordering: true,
-                    deferRender: true,
-                    order: [[ 1, 'asc' ]],
-                    ajax: {
-                        url: '{{ route('datatable_trash_position') }}', 
-                        type: 'POST'
-                    },
-                    columns: [
-                        { render: function (data, type, row, meta) {
-                                return meta.row + meta.settings._iDisplayStart + 1;
-                            },
-                            orderable: false
-                        },
-                        { data: 'name' },
-                        { data: 'deleted_at' },
-                        { data: 'id',
-                            render: function ( data, type, row ) { // Tampilkan kolom aksi
-                                var html = `<div class="text-nowrap">
-                                    <button class="btn badge badge-sm badge-success" onclick="restoreItemPosition(${data})" data-toggle="tooltip" data-placement="top" title="Restore"><i
-                                    class="fas fa-reply"></i></button>
-                                    <button class="btn badge badge-sm badge-danger" onclick="deletePermanentItemPosition(${data})" data-toggle="tooltip" data-placement="top" title="Hapus Permanen"><i class="fas fa-trash"></i></button>
-                                    </div>`;
-                                return html;
-                            }, 
-                            orderable: false
-                        },
-                    ],
-                    columnDefs: [
-                        { responsivePriority: 1, targets: 1 }
-                    ]
-                })
-            }
-        });
-    });
 </script>
 <script type="text/javascript">
     $(function () {

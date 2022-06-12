@@ -1,7 +1,5 @@
 @extends('layouts.panel')
 
-@section('title', 'Daftar Hadir')
-
 @section('content')
 <div class="row">
    <div class="col-lg-4">
@@ -9,27 +7,27 @@
          <div class="card-body box-profile">
             <ul class="list-group list-group-unbordered mb-3">
                <li class="list-group-item border-0">
-                  <b>Judul Kegiatan</b>
+                  <b>Judul Aktifitas</b>
                   <br>
                   {{ $agenda->title }}
                </li>
                <li class="list-group-item border-0">
-                  <b>Kegiatan Mulai</b>
+                  <b>Aktifitas Mulai</b>
                   <br>
                   {{ \Carbon\Carbon::parse($agenda->start)->isoFormat('dddd, D MMMM YYYY HH.mm') }} WIB
                </li>
                <li class="list-group-item border-0">
-                  <b>Kegiatan Selesai</b>
+                  <b>Target Selesai</b>
                   <br>
                   {{ \Carbon\Carbon::parse($agenda->end)->isoFormat('dddd, D MMMM YYYY HH.mm') }} WIB
                </li>
                <li class="list-group-item border-0">
-                  <b>Sifat Kegiatan</b>
+                  <b>Sifat Aktifitas</b>
                   <br>
                   {{ $agenda->status_agenda->name }}
                </li>
                <li class="list-group-item border-0">
-                  <b>Partisipan Kegiatan</b>
+                  <b>Partisipan Aktifitas</b>
                   <ul>
                      @forelse($agenda->workunit as $workunit)
                      <li>{{ $workunit->code }} - {{ $workunit->name }}</li>
@@ -49,7 +47,7 @@
                <div class="user-block">
                   <img class="img-circle" src="{{ asset('assets/img/agenda.jpg')  }}" alt="{{ $agenda->title }}" />
                   <span class="username">
-                     <h5 class="text-dark font-weight-bold">Data Kehadiran</h5>
+                     <h5 class="text-dark font-weight-bold">Daftar Selesai</h5>
                   </span>
                   <span class="description">
                      {{ $agenda->title }}
@@ -61,7 +59,7 @@
                         <tr>
                            <th>#</th>
                            <th>Nama</th>
-                           <th>Asal Satker</th>
+                           <th>Unit Kerja</th>
                            <th>Status</th>
                         </tr>
                      </thead>
@@ -72,9 +70,9 @@
                            <td>{{ $present->user['name'] }}</td>
                            <td>{{ $present->user['workunit']['name'] }}</td>
                            <td>
-                              <i class="text-success fas fa-check-circle"></i> HADIR
-                              {{-- <br>
-                              <small><i>{{ $present->created_at }}</i></small> --}}
+                              <i class="text-success fas fa-check-circle"></i> Selesai
+                              <br>
+                              <small><i>{{ $present->created_at }}</i></small>
                            </td>
                         </tr>
                         @endforeach

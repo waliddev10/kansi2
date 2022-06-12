@@ -1,0 +1,13 @@
+{
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client",
+    "emmet.triggerExpansionOnTab": true,
+    "blade.format.enable": true, 
+    "emmet.includeLanguages": {
+        "blade":"html"
+    },
+    "[blade]": {
+        "editor.defaultFormatter": "onecentlin.laravel-blade",
+        "editor.autoClosingBrackets": "always"
+    }
+}

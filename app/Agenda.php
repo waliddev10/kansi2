@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Agenda extends Model
 {
-    //	id	title	description	user_id	open_gate_date	start_date	end_date	image	link	attachment status_agenda_id	created_at	updated_at	deleted_at
-
-    use SoftDeletes;
-
     protected $fillable = [
-        'title', 'description', 'user_id', 'start', 'end', 'link', 'attachment', 'status_agenda_id'
+        'title',
+        'description',
+        'user_id',
+        'start',
+        'end',
+        'link',
+        'attachment', 'status_agenda_id'
     ];
 
     protected $appends = [

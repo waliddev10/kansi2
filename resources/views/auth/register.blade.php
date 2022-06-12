@@ -7,11 +7,6 @@
 
 @section('content')
 <div class="card-body register-card-body" style="max-width: 100%">
-    <div class="form-group text-center">
-        <a href="{{ route('home') }}">
-            <img class="img" alt="Aplikasi KPPN Purwodadi" height="48" src="{{ asset('assets/img/logo-full.jpg') }}">
-        </a>
-    </div>
     <div class="login-box-msg">
         <h4>Register Akun</h4>
     </div>
@@ -27,17 +22,6 @@
                             class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}"
                             placeholder="Alamat Email" autocomplete="email" required>
                         @error('email')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="username">Username<span class="text-warning">*</span></label>
-                        <input name="username" type="text" id="username"
-                            class="form-control @error('username') is-invalid @enderror" value="{{ old('username') }}"
-                            placeholder="Username" autocomplete="off" required>
-                        @error('username')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -78,7 +62,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="workunit_id">Satuan Kerja<span class="text-warning">*</span></label>
+                        <label for="workunit_id">Unit Kerja<span class="text-warning">*</span></label>
                         <select name="workunit_id" class="form-control" id="workunit_id" style="width: 100%;"
                             autocomplete="off" required>
                             @if(old('workunit_id'))
@@ -104,9 +88,9 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="nip">NIP<span class="text-warning">*</span></label>
+                        <label for="nip">NIP/NIK<span class="text-warning">*</span></label>
                         <input name="nip" type="number" id="nip" class="form-control @error('nip') is-invalid @enderror"
-                            value="{{ old('nip') }}" placeholder="NIP" autocomplete="nip" required>
+                            value="{{ old('nip') }}" placeholder="NIP/NIK" autocomplete="nip" required>
                         @error('nip')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -160,7 +144,7 @@
 <script type="text/javascript">
     $(function(){
         $('#workunit_id').select2({
-            placeholder: 'Pilih Satuan Kerja...',
+            placeholder: 'Pilih Unit Kerja...',
             allowClear: true,
             ajax: {
                 url: '{{ route('api_workunits') }}',
@@ -175,7 +159,7 @@
                     return {
                         results: $.map(data, function (item) {
                             return {
-                                text: item.code+ ' - ' +item.name,
+                                text: item.name,
                                 id: item.id
                             }
                         })

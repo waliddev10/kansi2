@@ -13,15 +13,14 @@ class PositionsTableSeeder extends Seeder
      */
     public function run()
     {
-        //
-        $data = [
+        return   Position::insert([
             [
-                'name' => 'Kepala Kantor',
+                'name' => 'Kepala Subbag',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'name' => 'Kepala Seksi',
+                'name' => 'Koordinator',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -30,7 +29,6 @@ class PositionsTableSeeder extends Seeder
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]
-        ];
-        Position::insert($data);
+        ]);
     }
 }

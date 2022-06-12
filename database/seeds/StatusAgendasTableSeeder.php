@@ -13,8 +13,8 @@ class StatusAgendasTableSeeder extends Seeder
      */
     public function run()
     {
-        //
-        $data = [
+
+        return StatusAgenda::insert([
             [
                 'id' => 1,
                 'name' => 'Wajib',
@@ -27,7 +27,6 @@ class StatusAgendasTableSeeder extends Seeder
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]
-        ];
-        StatusAgenda::insert($data);
+        ]);
     }
 }
