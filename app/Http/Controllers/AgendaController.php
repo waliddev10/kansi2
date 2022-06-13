@@ -54,20 +54,30 @@ class AgendaController extends Controller
     {
         $this->validate($request, [
             'agenda_id' => 'required',
+            'description' => 'required',
+            'attachment' => 'required'
         ]);
+
+        $file = $request->file('file');
+        $file->move(storage_path('agenda/attachment'), $file->getClientOriginalName());
 
         $agenda = Agenda::where('start', '<=', Carbon::now()->addHour())->where('end', '>=', Carbon::now()->subHour())->findOrFail(intval($request->agenda_id));
 
         if ($agenda) {
             $position = new Present();
             $position->agenda_id = $request->agenda_id;
+            $position->description = $request->description;
+            $position->attachment = $file->getClientOriginalName();
             $position->user_id = Auth::user()->id;
             if ($position->save()) {
-                return response()->json(['message' => 'Anda telah dicatat hadir dalam kegiatan ini.'], 200);
+                return redirect()->refresh();
+
+                // return response()->json(['message' => 'Anda telah dicatat hadir dalam kegiatan ini.'], 200);
             }
         }
 
-        return response()->json();
+        // return response()->json();
+        return redirect()->refresh();
     }
 
     public function get_api_detail($id)

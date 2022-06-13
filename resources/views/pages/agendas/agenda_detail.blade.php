@@ -45,7 +45,8 @@
                {{ \Carbon\Carbon::parse($present->created_at)->isoFormat('dddd, D MMMM YYYY HH.mm') }} WIB
             </div>
             @else
-            <button onclick="sendPresent({{ $agenda->id }})" class="btn btn-success font-weight-bold float-right"><i
+            <button {{-- onclick="sendPresent({{ $agenda->id }})" --}} data-toggle="modal"
+               data-target="#storePresentModal" class="btn btn-success font-weight-bold float-right"><i
                   class="far fa-bookmark"></i> Tandai Selesai</button>
             @endif
          </div>
@@ -81,6 +82,8 @@
                            <th>Nama</th>
                            <th>Unit Kerja</th>
                            <th>Status</th>
+                           <th>Catatan</th>
+                           <th>Lampiran</th>
                         </tr>
                      </thead>
                      <tbody>
@@ -94,6 +97,10 @@
                               <br>
                               <small><i>{{ $present->created_at }}</i></small>
                            </td>
+                           <td>{{ $present->description }}</td>
+                           <td> <a href="{{ route('files.present', $present->attachment) }}">
+                                 <i class="fas fa-paperclip"></i> Lihat Lampiran
+                              </a></td>
                         </tr>
                         @empty
                         <tr>
@@ -108,41 +115,79 @@
       </div>
    </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="storePresentModal" tabindex="-1" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <form id="storePresent" method="POST" action="{{ route('agenda_detail.present.store') }}">
+            @csrf
+            <input name="agenda_id" type="hidden" value="{{ $agenda->id }}" required />
+            <div class="modal-body">
+               <div class="form-group">
+                  <label for="description">Catatan<span class="text-warning">*</span></label>
+                  <textarea name="description" type="text" id="description" class="form-control" placeholder="Catatan"
+                     rows="4" autocomplete="off" required></textarea>
+                  <span id="description-error" class="invalid-feedback" role="alert">
+                  </span>
+               </div>
+               <div class="form-group">
+                  <label for="attachment">Lampiran<span class="text-warning">*</span></label>
+                  <input name="attachment" type="file" class="form-control" id="attachment" placeholder="Lampiran"
+                     autocomplete="off" required />
+                  <span id="attachment-error" class="invalid-feedback" role="alert">
+                  </span>
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+               <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>
+                  Selesaikan</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
 @endsection
 
 @push('scripts')
 <script type="text/javascript">
-   function sendPresent(agenda_id) {
-            Swal.fire({
-                title: 'Yakin Selesaikan Aktivitas Ini?',
-                text: 'Aksi ini tidak dapat dibatalkan.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Sudah Selesai'
-            }).then((result) => {
-                if(result.isConfirmed) {
-                    $.ajax({
-                        url: '{{ route('agenda_detail.present.store') }}',
-                        data: {agenda_id:agenda_id},
-                        type: 'POST',
-                        success: function (res) {
-                            Swal.fire('Berhasil', res.message, 'success').then(function(){
-                                 location.reload();
-                              }
-                            );
-                        },
-                        error: function (response) {
-                            error = JSON.stringify(response.responseJSON.errors);
-                            if(!error) {
-                               error = 'Selesai hanya bisa dilakukan 1 jam sebelum tugas dimulai hingga 1 jam setelah tanggal target tugas selesai.'
-                            }
-                            Swal.fire('Gagal Selesai', error, 'error');
-                        }
-                    });
-                }
-            });
-        }
+   $(function(){
+          $('#storePresent').submit(function(e){
+            e.preventDefault();
+            var form = $(this);
+            var formData = new FormData($(this)[0]);
+            formData.append('file', $('input[type=file]')[0].files[0]); 
+
+            $.ajax({
+              url: $(this).attr('action'),
+              data: formData,
+              type: 'POST',
+              processData: false,
+              contentType: false,
+              beforeSend: function() {
+                $('#storePresent :input').attr('disabled',true).removeClass('is-invalid');
+                $('#storePresent').find('.invalid-feedback').text('');
+              },
+              complete: function() {
+                $('#storePresent :input').attr('disabled',false);
+              },
+              success:function(res) {
+                Swal.fire('Berhasil', res.message, 'success');
+                $('#storePresent').trigger('reset');
+                $('#storePresent').find('.select2').val(null).trigger('change');
+                $('#dataPresent').DataTable().ajax.reload();
+                $('#storePresentModal').modal('toggle');
+                location.reload();
+              },
+              error: function(response) {
+                Object.keys(response.responseJSON.errors).forEach(key => {
+                    $(`input[name='${key}']`).addClass('is-invalid');
+                    $(`#${key}-error`).text(response.responseJSON.errors[key]);
+                });
+              }
+            })
+            return false;
+          });
+        });
 </script>
 @endpush
