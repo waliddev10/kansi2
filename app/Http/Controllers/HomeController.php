@@ -68,8 +68,6 @@ class HomeController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|min:3|max:255',
-            'username' =>
-            'required|min:4|max:18|unique:users,username,' . Auth::user()->id,
             'handphone' => 'required|min:8|max:16',
             'nip' => 'required',
         ]);
