@@ -72,7 +72,7 @@ class AgendaController extends Controller
             if ($position->save()) {
                 return redirect()->refresh();
 
-                // return response()->json(['message' => 'Anda telah dicatat hadir dalam kegiatan ini.'], 200);
+                return response()->json(['message' => 'Aktivitas telah diselesaikan.'], 200);
             }
         }
 
