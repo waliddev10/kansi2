@@ -74,7 +74,6 @@ class HomeController extends Controller
 
         $user = User::find(intval(Auth::user()->id));
         $user->name = strtoupper($request->name);
-        $user->username = $request->username;
         $user->handphone = $request->handphone;
         $user->nip = $request->nip;
         if ($user->save()) {
