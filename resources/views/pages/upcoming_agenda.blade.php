@@ -6,7 +6,7 @@
 <div class="card-body">
    <button id="storeModeratorAgendaModalButton" type="button" class="btn btn-primary" data-toggle="modal"
       data-target="#storeModeratorAgendaModal">
-      <i class="fas fa-plus-circle"></i> Tambah Aktifitas
+      <i class="fas fa-plus-circle"></i> Tambah Aktivitas
    </button>
 </div>
 <div class="row">
@@ -58,15 +58,15 @@
    <div class="modal-dialog">
       <div class="modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="storeModeratorAgendaModalLabel">Tambah Aktifitas</h5>
+            <h5 class="modal-title" id="storeModeratorAgendaModalLabel">Tambah Aktivitas</h5>
          </div>
          <form id="storeModeratorAgenda" method="POST" action="{{ route('moderator.agenda.store') }}">
             @csrf
             <input name="id" type="hidden" id="id" value="">
             <div class="modal-body">
                <div class="form-group">
-                  <label for="title">Nama Aktifitas<span class="text-warning">*</span></label>
-                  <input name="title" type="text" id="title" class="form-control" placeholder="Judul Aktifitas"
+                  <label for="title">Nama Aktivitas<span class="text-warning">*</span></label>
+                  <input name="title" type="text" id="title" class="form-control" placeholder="Judul Aktivitas"
                      autocomplete="off" required>
                   <span id="title-error" class="invalid-feedback" role="alert">
                   </span>
@@ -131,7 +131,7 @@
         $('#storeModeratorAgenda').trigger('reset');
         $('#storeModeratorAgenda').attr('action', '{{ route('moderator.agenda.update') }}');
         $('#storeModeratorAgenda').attr('method', 'PUT');
-        $('#storeModeratorAgendaModalLabel').text('Edit Aktifitas');
+        $('#storeModeratorAgendaModalLabel').text('Edit Aktivitas');
         $.ajax({
             url: '{{ route('moderator.agenda.get') }}',
             data: {id:id},
@@ -155,7 +155,7 @@
     }
 
     $('#storeModeratorAgendaModalButton').click(function(){
-        $('#storeModeratorAgendaModalLabel').text('Tambah Aktifitas');
+        $('#storeModeratorAgendaModalLabel').text('Tambah Aktivitas');
         $('#storeModeratorAgenda').attr('method', 'POST');
         $('#storeModeratorAgenda').attr('action', '{{ route('moderator.agenda.store') }}');
         $('#storeModeratorAgenda').trigger('reset');
@@ -167,7 +167,7 @@
    function deleteItemModeratorAgenda(id) {
             Swal.fire({
                 title: 'Yakin Hapus?',
-                text: 'Data Aktifitas akan terhapus.',
+                text: 'Data Aktivitas akan terhapus.',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -304,7 +304,7 @@
          }
       });
       $('#status_agenda_id').select2({
-            placeholder: 'Pilih Sifat Aktifitas...',
+            placeholder: 'Pilih Sifat Aktivitas...',
             allowClear: true,
             ajax: {
                 url: '{{ route('api_status_agendas') }}',
