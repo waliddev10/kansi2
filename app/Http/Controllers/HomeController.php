@@ -71,7 +71,7 @@ class HomeController extends Controller
             'username' =>
             'required|min:4|max:18|unique:users,username,' . Auth::user()->id,
             'handphone' => 'required|min:8|max:16',
-            'nip' => 'required|digits:18',
+            'nip' => 'required',
         ]);
 
         $user = User::find(intval(Auth::user()->id));
