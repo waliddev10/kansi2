@@ -28,7 +28,7 @@
                                 <th>Target Selesai</th>
                                 <th>Sifat</th>
                                 <th>Lampiran</th>
-                                <th>PIC Mod.</th>
+                                <th>PIC</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -91,6 +91,13 @@
                         <select name="status_agenda_id" class="select2 form-control" id="status_agenda_id"
                             style="width: 100%;" autocomplete="off" required></select>
                         <span id="status_agenda_id-error" class="invalid-feedback" role="alert">
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="user_id">Nama<span class="text-warning">*</span></label>
+                        <select name="user_id" class="select2 form-control" id="user_id" style="width: 100%;"
+                            autocomplete="off" required></select>
+                        <span id="user_id-error" class="invalid-feedback" role="alert">
                         </span>
                     </div>
                 </div>
@@ -222,7 +229,7 @@
             deferRender: true,
             order: [[ 3, 'desc' ]],
             ajax: {
-                url: '{{ route('moderator.agenda.data') }}', 
+                url: '{{ route('moderator.agenda.data') }}',
                 type: 'POST'
             },
             columns: [
@@ -257,7 +264,7 @@
                             <button class="btn badge badge-sm badge-danger" onclick="deleteItemModeratorAgenda(${data})"><i class="fas fa-trash"></i></button>
                             </div>`;
                         return html;
-                    }, 
+                    },
                     orderable: false
                 },
             ],
@@ -271,7 +278,7 @@
     $(function(){
       $('#start').datetimepicker({
          format: 'YYYY-MM-DD HH:mm:ss',
-         buttons: 
+         buttons:
          {
             showToday: true,
             showClear: true,
@@ -292,6 +299,31 @@
             allowClear: true,
             ajax: {
                 url: '{{ route('api_status_agendas') }}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        search: params.term
+                    }
+                },
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                text: item.name,
+                                id: item.id
+                            }
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+      $('#user_id').select2({
+            placeholder: 'Pilih Nama...',
+            allowClear: true,
+            ajax: {
+                url: '{{ route('api_users') }}',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {

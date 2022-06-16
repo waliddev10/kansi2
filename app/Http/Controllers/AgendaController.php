@@ -55,29 +55,24 @@ class AgendaController extends Controller
         $this->validate($request, [
             'agenda_id' => 'required',
             'description' => 'required',
-            'attachment' => 'required'
+            'attachment' => 'nullable'
         ]);
 
         $file = $request->file('file');
-        $file->move(storage_path('agenda/attachment'), $file->getClientOriginalName());
-
-        $agenda = Agenda::where('start', '<=', Carbon::now()->addHour())->where('end', '>=', Carbon::now()->subHour())->findOrFail(intval($request->agenda_id));
-
-        if ($agenda) {
-            $position = new Present();
-            $position->agenda_id = $request->agenda_id;
-            $position->description = $request->description;
-            $position->attachment = $file->getClientOriginalName();
-            $position->user_id = Auth::user()->id;
-            if ($position->save()) {
-                return redirect()->refresh();
-
-                return response()->json(['message' => 'Aktivitas telah diselesaikan.'], 200);
-            }
+        if ($file) {
+            $file->move(storage_path('agenda/attachment'), $file->getClientOriginalName());
         }
 
-        // return response()->json();
-        return redirect()->refresh();
+        $position = new Present();
+        $position->agenda_id = $request->agenda_id;
+        $position->description = $request->description;
+        if ($file) {
+            $position->attachment = $file->getClientOriginalName();
+        }
+        $position->user_id = Auth::user()->id;
+        if ($position->save()) {
+            return response()->json(['message' => 'Aktivitas telah diselesaikan.'], 200);
+        }
     }
 
     public function get_api_detail($id)
@@ -160,23 +155,22 @@ class AgendaController extends Controller
             // 'link' => 'max:255',
             'attachment' => 'max:255',
             'status_agenda_id' => 'required',
+            'user_id' => 'required',
         ]);
 
         $agenda = new Agenda();
         $agenda->title = $request->title;
         $agenda->slug = Str::slug(time() . ' ' . $request->title, '-');
         $agenda->description = $request->description;
-        $agenda->user_id = Auth::user()->id;
+        $agenda->user_id = $request->user_id;
         $agenda->start = $request->start;
         $agenda->end = $request->end;
         // $agenda->link = $request->link;
         // $agenda->workunit_id = ($request->workunit_id) ? implode(',', $request->workunit_id) : null;
         $agenda->attachment = $request->attachment;
         $agenda->status_agenda_id = $request->status_agenda_id;
-        if ($agenda->save()) {
-            return response()->json(['message' => 'Item "' . $agenda->title . '" berhasil ditambahkan.'], 200);
-        }
-        return response()->json();
+        $agenda->save();
+        return response()->json(['message' => 'Item "' . $agenda->title . '" berhasil ditambahkan.'], 200);
     }
 
     public function moderator_agenda_update(Request $request)

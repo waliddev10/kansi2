@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Position;
 use App\StatusAgenda;
+use App\User;
 use App\Workunit;
 use Illuminate\Http\Request;
 
@@ -32,5 +33,13 @@ class ApiController extends Controller
             return $q->where('name', 'like', '%' . $search . '%');
         })->get();
         return response()->json($status_agendas);
+    }
+
+    public function get_users(Request $request)
+    {
+        $users = User::when($request->search, function ($q, $search) {
+            return $q->where('name', 'like', '%' . $search . '%');
+        })->get();
+        return response()->json($users);
     }
 }
