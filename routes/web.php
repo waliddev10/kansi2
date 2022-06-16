@@ -35,6 +35,9 @@ Route::middleware(['auth', 'verified'])->group(
         Route::get('/contact-us', 'InfoController@user_contact_index')->name('contact');
 
         Route::get('/documents', 'DocumentController@index')->name('arsip');
+        Route::post('/documents', 'DocumentController@store')->name('arsip.store');
+        Route::get('/documents/akuntansi/{year}', 'DocumentController@detailAkuntansi')->name('arsip.detail.akuntansi');
+        Route::get('/documents/verifikasi/{year}', 'DocumentController@detailVerifikasi')->name('arsip.detail.verifikasi');
 
         Route::get('/forum', 'ForumController@index')->name('forum');
 
@@ -49,6 +52,16 @@ Route::middleware(['auth', 'verified'])->group(
         Route::put('/profile-settings/update', 'HomeController@profile_settings_update')->name('profile_settings.update');
         Route::get('/profile-settings/data', 'HomeController@profile_settings_get')->name('profile_settings.get');
 
+        Route::get('/files/documents/{filename}', function ($filename) {
+            return response()
+                ->download(
+                    storage_path('documents/' . $filename),
+                    $filename,
+                    [
+                        'Content-Type' => 'application/octet-stream'
+                    ]
+                );
+        })->name('files.document');
 
         Route::get('/files/{filename}', function ($filename) {
             return response()
