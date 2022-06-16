@@ -17,12 +17,14 @@ class MonevController extends Controller
     public function index()
     {
         $agendaList = (new Agenda)
+            ->select('agendas.*', 'users.name as name_group')
             ->join('users', 'users.id', '=', 'agendas.user_id')
             ->with(['presents'])
-            ->where('user_id', Auth::user()->id)
             ->orderBy('start', 'desc')
             ->get()
-            ->groupBy('name');
+            ->groupBy('name_group');
+
+        // return response()->json($agendaList);
 
         return view('pages.moderator.monev', compact('agendaList'));
     }
