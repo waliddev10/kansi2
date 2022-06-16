@@ -186,7 +186,7 @@
             deferRender: true,
             order: [[ 3, 'desc' ]],
             ajax: {
-                url: '{{ route('moderator.notification.data') }}', 
+                url: '{{ route('moderator.notification.data') }}',
                 type: 'POST'
             },
             columns: [
@@ -204,7 +204,7 @@
                             <button class="btn badge badge-sm badge-danger" onclick="deleteItemModeratorNotification(${data})"><i class="fas fa-trash"></i></button>
                             </div>`;
                         return html;
-                    }, 
+                    },
                     orderable: false
                 },
             ],

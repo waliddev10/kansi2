@@ -4,119 +4,120 @@
 
 @section('content')
 <div class="card-body">
-   <button id="storeModeratorAgendaModalButton" type="button" class="btn btn-primary" data-toggle="modal"
-      data-target="#storeModeratorAgendaModal">
-      <i class="fas fa-plus-circle"></i> Tambah Aktivitas
-   </button>
+    <button id="storeModeratorAgendaModalButton" type="button" class="btn btn-primary" data-toggle="modal"
+        data-target="#storeModeratorAgendaModal">
+        <i class="fas fa-plus-circle"></i> Tambah Aktivitas
+    </button>
 </div>
 <div class="row">
-   <div class="col">
-      @forelse($upcomingAgendaList as $monthly => $agendas)
-      <div class="card shadow-sm mb-3">
-         <div class="card-header">
-            <h3 class="card-title">{{ $monthly }}</h3>
-            <div class="card-tools">
-               <small class="badge badge-primary">{{ count($agendas) }}</small>
-               <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-               </button>
+    <div class="col">
+        @forelse($upcomingAgendaList as $monthly => $agendas)
+        <div class="card shadow-sm mb-3">
+            <div class="card-header">
+                <h3 class="card-title">{{ $monthly }}</h3>
+                <div class="card-tools">
+                    <small class="badge badge-primary">{{ count($agendas) }}</small>
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
             </div>
-         </div>
-         <div class="card-body p-0">
-            <ul class="products-list product-list-in-card p-2">
-               @foreach ($agendas as $agenda)
-               <li class="item mx-3">
-                  <div class="product-img">
-                     <img src="{{ asset('assets/img/agenda.jpg') }}" alt="{{ $agenda->title }}" class="img-size-50">
-                  </div>
-                  <div class="product-info">
-                     <a class="text-dark product-title">{{ $agenda->title }}</a>
-                     <span class="product-description">
-                        <i class="far fa-calendar"></i>
-                        {{ \Carbon\Carbon::parse($agenda->start)->isoFormat('dddd, D MMMM YYYY') }}
-                     </span>
-                     <a href="{{ route('agenda_detail', ['slug' => $agenda->slug]) }}">
-                        <span class="badge badge-primary"><i class="far fa-eye"></i> Detail</span>
-                     </a>
-                  </div>
-               </li>
-               @endforeach
-            </ul>
-         </div>
-      </div>
-      @empty
-      <div class="card shadow-sm mb-3">
-         <div class="card-body text-muted">
-            Belum ada Aktivitas.
-         </div>
-      </div>
-      @endforelse
-   </div>
+            <div class="card-body p-0">
+                <ul class="products-list product-list-in-card p-2">
+                    @foreach ($agendas as $agenda)
+                    <li class="item mx-3">
+                        <div class="product-img">
+                            <img src="{{ asset('assets/img/agenda.jpg') }}" alt="{{ $agenda->title }}"
+                                class="img-size-50">
+                        </div>
+                        <div class="product-info">
+                            <a class="text-dark product-title">{{ $agenda->title }}</a>
+                            <span class="product-description">
+                                <i class="far fa-calendar"></i>
+                                {{ \Carbon\Carbon::parse($agenda->start)->isoFormat('dddd, D MMMM YYYY') }}
+                            </span>
+                            <a href="{{ route('agenda_detail', ['slug' => $agenda->slug]) }}">
+                                <span class="badge badge-primary"><i class="far fa-eye"></i> Detail</span>
+                            </a>
+                        </div>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        @empty
+        <div class="card shadow-sm mb-3">
+            <div class="card-body text-muted">
+                Belum ada Aktivitas.
+            </div>
+        </div>
+        @endforelse
+    </div>
 </div>
 <!-- Modal -->
 <div class="modal fade" id="storeModeratorAgendaModal" tabindex="-1" aria-hidden="true">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="storeModeratorAgendaModalLabel">Tambah Aktivitas</h5>
-         </div>
-         <form id="storeModeratorAgenda" method="POST" action="{{ route('moderator.agenda.store') }}">
-            @csrf
-            <input name="id" type="hidden" id="id" value="">
-            <div class="modal-body">
-               <div class="form-group">
-                  <label for="title">Nama Aktivitas<span class="text-warning">*</span></label>
-                  <input name="title" type="text" id="title" class="form-control" placeholder="Judul Aktivitas"
-                     autocomplete="off" required>
-                  <span id="title-error" class="invalid-feedback" role="alert">
-                  </span>
-               </div>
-               <div class="form-group">
-                  <label for="description">Deskripsi<span class="text-warning">*</span></label>
-                  <textarea name="description" type="text" id="description" class="form-control" placeholder="Deskripsi"
-                     rows="4" autocomplete="off" required></textarea>
-                  <span id="description-error" class="invalid-feedback" role="alert">
-                  </span>
-               </div>
-               <div class="form-group">
-                  <label for="start">Tgl. Mulai<span class="text-warning">*</span></label>
-                  <input name="start" type="text" class="form-control datetimepicker-input" id="start"
-                     data-toggle="datetimepicker" data-target="#start" placeholder="Tgl. Mulai" autocomplete="off"
-                     required />
-                  <span id="start-error" class="invalid-feedback" role="alert">
-                  </span>
-               </div>
-               <div class="form-group">
-                  <label for="end">Target Selesai<span class="text-warning">*</span></label>
-                  <input name="end" type="text" class="form-control datetimepicker-input" id="end"
-                     data-toggle="datetimepicker" data-target="#end" placeholder="Target Selesai" autocomplete="off"
-                     required />
-                  <span id="end-error" class="invalid-feedback" role="alert">
-                  </span>
-               </div>
-               <div class="form-group">
-                  <label for="attachment">Lampiran</label>
-                  <textarea name="attachment" type="text" id="attachment" class="form-control" placeholder="Lampiran"
-                     rows="2" autocomplete="off"></textarea>
-                  <span id="attachment-error" class="invalid-feedback" role="alert">
-                  </span>
-               </div>
-               <div class="form-group">
-                  <label for="status_agenda_id">Sifat<span class="text-warning">*</span></label>
-                  <select name="status_agenda_id" class="select2 form-control" id="status_agenda_id"
-                     style="width: 100%;" autocomplete="off" required></select>
-                  <span id="status_agenda_id-error" class="invalid-feedback" role="alert">
-                  </span>
-               </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="storeModeratorAgendaModalLabel">Tambah Aktivitas</h5>
             </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-               <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>
-                  Simpan</button>
-            </div>
-         </form>
-      </div>
-   </div>
+            <form id="storeModeratorAgenda" method="POST" action="{{ route('moderator.agenda.store') }}">
+                @csrf
+                <input name="user_id" type="hidden" id="id" value="{{ Auth::user()->id }}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="title">Nama Aktivitas<span class="text-warning">*</span></label>
+                        <input name="title" type="text" id="title" class="form-control" placeholder="Judul Aktivitas"
+                            autocomplete="off" required>
+                        <span id="title-error" class="invalid-feedback" role="alert">
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Deskripsi<span class="text-warning">*</span></label>
+                        <textarea name="description" type="text" id="description" class="form-control"
+                            placeholder="Deskripsi" rows="4" autocomplete="off" required></textarea>
+                        <span id="description-error" class="invalid-feedback" role="alert">
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="start">Tgl. Mulai<span class="text-warning">*</span></label>
+                        <input name="start" type="text" class="form-control datetimepicker-input" id="start"
+                            data-toggle="datetimepicker" data-target="#start" placeholder="Tgl. Mulai"
+                            autocomplete="off" required />
+                        <span id="start-error" class="invalid-feedback" role="alert">
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="end">Target Selesai<span class="text-warning">*</span></label>
+                        <input name="end" type="text" class="form-control datetimepicker-input" id="end"
+                            data-toggle="datetimepicker" data-target="#end" placeholder="Target Selesai"
+                            autocomplete="off" required />
+                        <span id="end-error" class="invalid-feedback" role="alert">
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachment">Lampiran</label>
+                        <textarea name="attachment" type="text" id="attachment" class="form-control"
+                            placeholder="Lampiran" rows="2" autocomplete="off"></textarea>
+                        <span id="attachment-error" class="invalid-feedback" role="alert">
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="status_agenda_id">Sifat<span class="text-warning">*</span></label>
+                        <select name="status_agenda_id" class="select2 form-control" id="status_agenda_id"
+                            style="width: 100%;" autocomplete="off" required></select>
+                        <span id="status_agenda_id-error" class="invalid-feedback" role="alert">
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>
+                        Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 @endsection
 
@@ -127,7 +128,7 @@
 <script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
 <script type="text/javascript">
-   function updateModeratorAgendaModalButton(id) {
+    function updateModeratorAgendaModalButton(id) {
         $('#storeModeratorAgenda').trigger('reset');
         $('#storeModeratorAgenda').attr('action', '{{ route('moderator.agenda.update') }}');
         $('#storeModeratorAgenda').attr('method', 'PUT');
@@ -164,7 +165,7 @@
     });
 </script>
 <script type="text/javascript">
-   function deleteItemModeratorAgenda(id) {
+    function deleteItemModeratorAgenda(id) {
             Swal.fire({
                 title: 'Yakin Hapus?',
                 text: 'Data Aktivitas akan terhapus.',
@@ -195,7 +196,7 @@
         }
 </script>
 <script type="text/javascript">
-   $(function(){
+    $(function(){
           $('#storeModeratorAgenda').submit(function(e){
             e.preventDefault();
             $.ajax({
@@ -229,7 +230,7 @@
         });
 </script>
 <script type="text/javascript">
-   $(function () {
+    $(function () {
         $('#dataModeratorAgenda').DataTable({
             responsive: true,
             processing: true,
@@ -238,7 +239,7 @@
             deferRender: true,
             order: [[ 3, 'desc' ]],
             ajax: {
-                url: '{{ route('moderator.agenda.data') }}', 
+                url: '{{ route('moderator.agenda.data') }}',
                 type: 'POST'
             },
             columns: [
@@ -273,7 +274,7 @@
                             <button class="btn badge badge-sm badge-danger" onclick="deleteItemModeratorAgenda(${data})"><i class="fas fa-trash"></i></button>
                             </div>`;
                         return html;
-                    }, 
+                    },
                     orderable: false
                 },
             ],
@@ -284,10 +285,10 @@
     });
 </script>
 <script type="text/javascript">
-   $(function(){
+    $(function(){
       $('#start').datetimepicker({
          format: 'YYYY-MM-DD HH:mm:ss',
-         buttons: 
+         buttons:
          {
             showToday: true,
             showClear: true,

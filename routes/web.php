@@ -58,6 +58,9 @@ Route::middleware(['auth', 'verified'])->group(
                     ]
                 );
         })->name('files.present');
+
+        Route::post('/moderator/agenda/store', 'AgendaController@moderator_agenda_store')->name('moderator.agenda.store');
+        Route::post('/moderator/notification/store', 'NotificationController@moderator_notification_store')->name('moderator.notification.store');
         # END ROUTE USER ----------------------------------------------------
 
         #--------------------------------------------------------------------
@@ -85,7 +88,7 @@ Route::middleware(['auth', 'verified'])->group(
 
                 Route::get('/moderator/agenda', 'AgendaController@moderator_agenda_index')->name('moderator.agenda');
                 Route::get('/moderator/agenda/get', 'AgendaController@moderator_agenda_get')->name('moderator.agenda.get');
-                Route::post('/moderator/agenda/store', 'AgendaController@moderator_agenda_store')->name('moderator.agenda.store');
+                // Route::post('/moderator/agenda/store', 'AgendaController@moderator_agenda_store')->name('moderator.agenda.store');
                 Route::put('/moderator/agenda', 'AgendaController@moderator_agenda_update')->name('moderator.agenda.update');
                 Route::delete('/moderator/agenda/delete', 'AgendaController@moderator_agenda_destroy')->name('moderator.agenda.delete');
 
@@ -98,7 +101,7 @@ Route::middleware(['auth', 'verified'])->group(
 
                 Route::get('/moderator/notification', 'NotificationController@moderator_notification_index')->name('moderator.notification');
                 Route::get('/moderator/notification/get', 'NotificationController@moderator_notification_get')->name('moderator.notification.get');
-                Route::post('/moderator/notification/store', 'NotificationController@moderator_notification_store')->name('moderator.notification.store');
+                // Route::post('/moderator/notification/store', 'NotificationController@moderator_notification_store')->name('moderator.notification.store');
                 Route::put('/moderator/notification', 'NotificationController@moderator_notification_update')->name('moderator.notification.update');
                 Route::delete('/moderator/notification/delete', 'NotificationController@moderator_notification_destroy')->name('moderator.notification.delete');
 
