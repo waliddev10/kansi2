@@ -34,6 +34,8 @@ Route::middleware(['auth', 'verified'])->group(
 
         Route::get('/contact-us', 'InfoController@user_contact_index')->name('contact');
 
+        Route::get('/documents', 'DocumentController@index')->name('arsip');
+
         Route::get('/forum', 'ForumController@index')->name('forum');
 
 
